@@ -1,6 +1,31 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 function CreateProductForm() {
+  const navigate = useNavigate();
+  const [submitName, setSubmitName] = useState("");
+  const [submitImage, setSubmitImage] = useState("");
+  const [submitPrice, setSubmitPrice] = useState("");
+  const [submitDesc, setSubmitDesc] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    creatProduct();
+  };
+
+  const creatProduct = async () => {
+    await axios.post("http://localhost:4001/products", {
+      name: submitName,
+      price: submitPrice,
+      image: submitImage,
+      description: submitDesc,
+    });
+    navigate("/");
+  };
+
   return (
-    <form className="product-form">
+    <form className="product-form" onSubmit={handleSubmit}>
       <h1>Create Product Form</h1>
       <div className="input-container">
         <label>
@@ -10,7 +35,10 @@ function CreateProductForm() {
             name="name"
             type="text"
             placeholder="Enter name here"
-            onChange={() => {}}
+            onChange={(e) => {
+              setSubmitName(e.target.value);
+            }}
+            value={submitName}
           />
         </label>
       </div>
@@ -22,7 +50,10 @@ function CreateProductForm() {
             name="image"
             type="text"
             placeholder="Enter image url here"
-            onChange={() => {}}
+            onChange={(e) => {
+              setSubmitImage(e.target.value);
+            }}
+            value={submitImage}
           />
         </label>
       </div>
@@ -34,7 +65,10 @@ function CreateProductForm() {
             name="price"
             type="number"
             placeholder="Enter price here"
-            onChange={() => {}}
+            onChange={(e) => {
+              setSubmitPrice(e.target.value);
+            }}
+            value={submitPrice}
           />
         </label>
       </div>
@@ -46,7 +80,10 @@ function CreateProductForm() {
             name="description"
             type="text"
             placeholder="Enter description here"
-            onChange={() => {}}
+            onChange={(e) => {
+              setSubmitDesc(e.target.value);
+            }}
+            value={submitDesc}
             rows={4}
             cols={30}
           />
